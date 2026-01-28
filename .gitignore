@@ -1,0 +1,3 @@
+id_ed25519_argocd
+*.pub
+argocd-repo-secret.yaml
