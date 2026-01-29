@@ -1,0 +1,11 @@
+controller:
+  installPlugins:
+    - kubernetes:4029.v5712230ccb_f8
+    - workflow-aggregator:596.v8c21da_02b_067
+    - git:5.2.1
+    - docker-workflow:572.v300f99961052
+  persistence:
+    enabled: true
+    storageClass: "standard"  # Using our verified storage
+    size: "10Gi"
+  serviceType: ClusterIP # We'll use Cloudflare or Port-forwarding for access
