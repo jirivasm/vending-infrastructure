@@ -2,7 +2,7 @@
 repoServer:
   persistence:
     enabled: true
-    storageClass: "longhorn"
+    storageClass: "standard"
     accessMode: ReadWriteOnce
     size: 5Gi  # You must define a size for the claim to be generated
   volumes:
@@ -17,7 +17,7 @@ redis:
   enabled: true
   persistence:
     enabled: true
-    storageClass: "longhorn"
+    storageClass: "standard"
     size: 2Gi
 
 server:
