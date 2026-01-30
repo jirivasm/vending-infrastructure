@@ -13,9 +13,9 @@ spec:
   source:
     repoURL: git@github.com:jirivasm/Vending_Machine.git
     targetRevision: HEAD
-    path: apps/vending-machine # This points to your actual deployment code
+    path: . # This points to your actual deployment code
   destination:
-    server: apps/vending-machine  # Use a forward slash here
+    server: https://kubernetes.default.svc
     namespace: default
   syncPolicy:
     automated:
