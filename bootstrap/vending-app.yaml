@@ -13,7 +13,7 @@ spec:
   source:
     repoURL: git@github.com:jirivasm/Vending_Machine.git
     targetRevision: HEAD
-    path: . # This points to your actual deployment code
+    path: VendingMachineApp # This points to your actual deployment code
   destination:
     server: https://kubernetes.default.svc
     namespace: default
