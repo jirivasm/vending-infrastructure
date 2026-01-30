@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vending-app
+  namespace: argocd
+  # The "Secret Sauce" annotations go here!
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: vending=jirivasm/vending-app
+    argocd-image-updater.argoproj.io/vending.update-strategy: latest
+    argocd-image-updater.argoproj.io/write-back-method: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/jirivasm/Vending_Machine.git
+    targetRevision: HEAD
+    path: apps/vending-machine # This points to your actual deployment code
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
