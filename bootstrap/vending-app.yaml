@@ -15,7 +15,7 @@ spec:
     targetRevision: HEAD
     path: apps/vending-machine # This points to your actual deployment code
   destination:
-    server: https://kubernetes.default.svc
+    server: apps/vending-machine  # Use a forward slash here
     namespace: default
   syncPolicy:
     automated:
