@@ -1,4 +1,5 @@
 controller:
+  overwritePlugins: true
   installPlugins:
     - kubernetes:4029.v5712230ccb_f8
     - workflow-aggregator:596.v8c21da_02b_067
