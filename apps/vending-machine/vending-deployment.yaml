@@ -16,5 +16,8 @@ spec:
       containers:
       - name: vending-app
         image: jirivasm/vending-app:latest
+        env:
+        - name: APP_STACK
+          value: "Flask | Jenkins | Kubernetes | ArgoCD | Cloudflare"
         ports:
         - containerPort: 5001
