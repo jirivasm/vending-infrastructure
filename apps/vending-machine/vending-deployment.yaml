@@ -21,3 +21,10 @@ spec:
           value: "Python | Flask | Jenkins | Kubernetes | ArgoCD | Cloudflare"
         ports:
         - containerPort: 5001
+        volumeMounts:
+        - name: vending-data
+          mountPath: /app/data
+      volumes:
+      - name: vending-data
+        persistentVolumeClaim:
+          claimName: vending-machine-pvc

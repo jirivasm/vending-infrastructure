@@ -7,8 +7,10 @@ controller:
     - docker-workflow
     - docker-commons
     - pipeline-stage-view
+  # Use these specific keys for the chart to merge your options
+  javaOpts: "-Dhudson.security.csrf.DefaultCrumbIssuer.EXCLUDE_SESSION_ID=true"
+  jenkinsOpts: "--prefix=/" 
   persistence:
     enabled: true
-    storageClass: "standard"  # Using our verified storage
-    size: "10Gi"
-  serviceType: ClusterIP # We'll use Cloudflare or Port-forwarding for access
+    existingClaim: "jenkins-pvc"
+  serviceType: ClusterIP
