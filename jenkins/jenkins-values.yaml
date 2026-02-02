@@ -1,4 +1,8 @@
 controller:
+  image:
+    repository: jirivasm/custom-jenkins
+    tag: "latest"
+    pullPolicy: Always
   overwritePlugins: true
   installPlugins:
     - kubernetes
