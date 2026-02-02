@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: vending-app
-  namespace: argocd
+  namespace: devops-tools
   # The "Secret Sauce" annotations go here!
   annotations:
     argocd-image-updater.argoproj.io/image-list: vending=jirivasm/vending-app:latest
@@ -16,7 +16,7 @@ spec:
     path: apps/vending-machine # This points to your actual deployment code
   destination:
     server: https://kubernetes.default.svc
-    namespace: default
+    namespace: vending-machine
   syncPolicy:
     automated:
       prune: true

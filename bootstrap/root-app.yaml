@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root-app
+  namespace: devops-tools
+spec:
+  project: default
+  source:
+    repoURL: git@github.com:jirivasm/vending-infrastructure.git # Matches your project name
+    targetRevision: HEAD
+    path: bootstrap # This app watches the bootstrap folder for other Application manifests
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: devops-tools
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

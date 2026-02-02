@@ -1,0 +1,37 @@
+repoServer:
+  persistence:
+    enabled: true
+    storageClass: "longhorn"  # Updated to use Longhorn
+    accessMode: ReadWriteOnce
+    size: 5Gi 
+
+redis:
+  enabled: true
+  persistence:
+    enabled: true
+    storageClass: "longhorn"  # Updated to use Longhorn
+    size: 2Gi
+
+server:
+  extraArgs:
+    - --insecure # Allows Traefik/Cloudflare to handle SSL
+  ingress:
+    enabled: true
+    ingressClassName: traefik  # Switched from Nginx to Traefik
+    hosts:
+      - argo.jirivasm.dev
+    annotations:
+      # Traefik specific annotations
+      traefik.ingress.kubernetes.io/router.entrypoints: web
+      # If using SSL via Traefik/Cloudflare, you might use:
+      # traefik.ingress.kubernetes.io/router.tls: "true"
+
+# Resource limits tailored for your mini PC cluster
+global:
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
