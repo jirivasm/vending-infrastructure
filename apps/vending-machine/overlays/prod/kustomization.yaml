@@ -15,10 +15,13 @@ patches:
 - target:
     kind: Deployment
     name: vending-machine
-  patch: |-
-    - op: replace
-      path: /spec/replicas
-      value: 3
+  patch: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: vending-machine
+    spec:
+      replicas: 3
 
 # 2. Patch the Ingress for your Dev Cloudflare URL
 - target:
