@@ -1,0 +1,13 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: vending-app-updater
+  namespace: devops-tools
+spec:
+  # This tells the controller which Application to target
+  application: vending-app 
+  imageList:
+    - name: vending-machine # Match the name in your Deployment
+      image: docker.io/jirivasm/vending-app:latest
+      updateStrategy: digest # Still using the secure digest method
+  writeBackMethod: argocd
