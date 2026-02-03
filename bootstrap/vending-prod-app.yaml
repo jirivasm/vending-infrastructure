@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: vending-app
+  name: vending-prod
   namespace: devops-tools
 spec:
   project: default

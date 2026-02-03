@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: vending-app
+  name: vending-dev
   namespace: devops-tools
   # The "Secret Sauce" annotations go here!
   annotations:
