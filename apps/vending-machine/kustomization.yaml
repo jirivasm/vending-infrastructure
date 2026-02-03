@@ -8,6 +8,6 @@ resources:
   # Add any other YAML files you have for this app here
 
 images:
-- name: jrivas/vending-machine  # THIS MUST MATCH YOUR DEPLOYMENT IMAGE NAME EXACTLY
-  newName: jrivas/vending-machine
+- name: jirivasm/vending-app  # THIS MUST MATCH YOUR DEPLOYMENT IMAGE NAME EXACTLY
+  newName: jirivasm/vending-app
   newTag: latest
