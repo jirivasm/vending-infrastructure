@@ -24,7 +24,11 @@ patches:
 - target:
     kind: Ingress
     name: vending-ingress
-  patch: |-
-    - op: replace
-      path: /spec/rules/0/host
-      value: vending.jirivasm.dev
+  patch: |
+    apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    metadata:
+      name: vending-ingress
+    spec:
+      rules:
+      - host: vending.jirivasm.dev
