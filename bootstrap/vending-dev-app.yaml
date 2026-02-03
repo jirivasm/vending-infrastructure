@@ -15,11 +15,12 @@ spec:
   source:
     repoURL: git@github.com:jirivasm/vending-infrastructure.git
     targetRevision: HEAD
-    path: apps/vending-machine # This points to your actual deployment code
+    path: apps/vending-machine/overlays/dev # This points to your actual deployment code
   destination:
     server: https://kubernetes.default.svc
-    namespace: vending-machine
+    namespace: vending-dev
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+  

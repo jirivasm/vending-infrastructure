@@ -5,7 +5,6 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-  - host: jirivasm.dev
     http:
       paths:
       - path: /

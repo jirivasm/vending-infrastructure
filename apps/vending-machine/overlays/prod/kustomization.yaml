@@ -11,6 +11,7 @@ namePrefix: prod-
 
 # Prod needs more replicas for high availability
 patches:
+# 1. Patch the Deployment for 1 replica (Save resources in the lab)
 - target:
     kind: Deployment
     name: vending-machine
@@ -18,3 +19,12 @@ patches:
     - op: replace
       path: /spec/replicas
       value: 3
+
+# 2. Patch the Ingress for your Dev Cloudflare URL
+- target:
+    kind: Ingress
+    name: vending-ingress
+  patch: |-
+    - op: replace
+      path: /spec/rules/0/host
+      value: vending.jirivasm.dev

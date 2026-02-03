@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vending-app
+  namespace: devops-tools
+spec:
+  project: default
+  source:
+    repoURL: git@github.com:jirivasm/vending-infrastructure.git
+    targetRevision: HEAD
+    path: apps/vending-machine/overlays/prod # This points to your actual deployment code
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: vending-prod
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
