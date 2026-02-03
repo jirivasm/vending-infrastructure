@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: jenkins
+  namespace: devops-tools # Stays in your management namespace
+spec:
+  project: default
+  source:
+    repoURL: git@github.com:jirivasm/vending-infrastructure.git
+    targetRevision: HEAD
+    path: jenkins # Or wherever your Jenkins manifests live
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: devops-tools # Deploys into the same toolset namespace
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true
