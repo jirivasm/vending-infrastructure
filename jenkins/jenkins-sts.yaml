@@ -704,16 +704,6 @@ items:
       rollingUpdate:
         partition: 0
       type: RollingUpdate
-  status:
-    availableReplicas: 1
-    collisionCount: 0
-    currentReplicas: 1
-    currentRevision: jenkins-5cfd5cd84b
-    observedGeneration: 3
-    readyReplicas: 1
-    replicas: 1
-    updateRevision: jenkins-5cfd5cd84b
-    updatedReplicas: 1
 kind: List
 metadata:
   resourceVersion: ""
