@@ -5,6 +5,7 @@ resources:
   - vending-deployment.yaml
   - vending-service.yaml
   - vending-ingress.yaml
+  - vending-pvc.yaml
   # Add any other YAML files you have for this app here
 
 images:

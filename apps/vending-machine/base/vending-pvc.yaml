@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: vending-machine-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn # Tells K3s to use your Longhorn storage
+  resources:
+    requests:
+      storage: 1Gi
