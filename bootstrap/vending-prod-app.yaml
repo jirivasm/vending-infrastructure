@@ -11,7 +11,7 @@ spec:
     path: apps/vending-machine/overlays/prod # This points to your actual deployment code
   destination:
     server: https://kubernetes.default.svc
-    namespace: vending-prod
+    namespace: vending-pro
   syncPolicy:
     automated:
       prune: true
