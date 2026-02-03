@@ -19,7 +19,7 @@ spec:
         image: jirivasm/vending-app:latest
         env:
         - name: APP_STACK
-          value: "Python | Flask | Jenkins | Kubernetes | ArgoCD | Cloudflare"
+          value: "Python | Flask | Jenkins | Kubernetes | ArgoCD | Longhorn | Cloudflare"
         ports:
         - containerPort: 5001
         volumeMounts:
