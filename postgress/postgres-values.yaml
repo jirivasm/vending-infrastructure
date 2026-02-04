@@ -1,0 +1,14 @@
+global:
+  postgresql:
+    auth:
+      # Tell Helm NOT to create a new password, but use the one we just made
+      existingSecret: "postgres-auth-secret"
+      database: "vending_machine"
+
+primary:
+  persistence:
+    enabled: true
+    storageClass: "longhorn"
+    size: 8Gi
+
+resourcesPreset: "small"

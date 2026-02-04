@@ -1,0 +1,15 @@
+env:
+  email: "jirivasmo@gmail.com"
+  password: "pgadmin-web-auth" 
+  passwordSecretKey: "admin-password" # This is for the UI login
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: traefik # K3s uses Traefik by default
+    cert-manager.io/cluster-issuer: "letsencrypt-prod" # If you use cert-manager
+  hosts:
+    - host: pgadmin.jirivasm.dev # Your Cloudflare domain
+      paths:
+        - path: /
+          pathType: Prefix
