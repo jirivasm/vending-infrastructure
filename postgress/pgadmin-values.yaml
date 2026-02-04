@@ -1,3 +1,8 @@
+persistence:
+  enabled: true
+  storageClass: "longhorn" # Use your Chicago home lab storage
+  accessMode: ReadWriteOnce
+  size: 1Gi # pgAdmin configuration is very small; 1GB is plenty
 env:
   email: "jirivasmo@gmail.com"
   password: "pgadmin-web-auth" 
