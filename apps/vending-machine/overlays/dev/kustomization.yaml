@@ -35,3 +35,21 @@ patches:
     spec:
       rules:
       - host: dev-vending.jirivasm.dev
+- target:
+    kind: Deployment
+    name: vending-machine
+  patch: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: vending-machine
+    spec:
+      template:
+        spec:
+          containers:
+          - name: vending-app
+            env:
+            - name: DB_HOST
+              value: "postgresql.database.svc.cluster.local"
+            - name: DB_USER
+              value: "postgres"
