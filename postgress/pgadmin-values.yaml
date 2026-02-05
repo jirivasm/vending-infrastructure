@@ -1,20 +1,28 @@
-persistence:
-  enabled: true
-  storageClass: "longhorn" # Use your Chicago home lab storage
-  accessMode: ReadWriteOnce
-  size: 1Gi # pgAdmin configuration is very small; 1GB is plenty
+# 1. Credentials
 env:
   email: "jirivasmo@gmail.com"
-  password: "pgadmin-web-auth" 
-  passwordSecretKey: "admin-password" # This is for the UI login
 
+# 2. Secret Configuration (Move these OUT of the 'env' block)
+existingSecret: "pgadmin-web-auth"
+secretKeys:
+  pgadminPasswordKey: "admin-password" 
+
+# 3. Storage for your Chicago Home Lab
+persistence:
+  enabled: true
+  storageClass: "longhorn"
+  accessMode: ReadWriteOnce
+  size: 1Gi
+
+# 4. Access (Modern Ingress)
 ingress:
   enabled: true
+  # Using ingressClassName instead of the deprecated annotation
+  ingressClassName: "traefik" 
   annotations:
-    kubernetes.io/ingress.class: traefik # K3s uses Traefik by default
-    cert-manager.io/cluster-issuer: "letsencrypt-prod" # If you use cert-manager
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
   hosts:
-    - host: pgadmin.jirivasm.dev # Your Cloudflare domain
+    - host: pgadmin.jirivasm.dev
       paths:
         - path: /
           pathType: Prefix
