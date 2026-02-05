@@ -31,6 +31,6 @@ spec:
               name: postgres-auth-secret
               key: postgres-password
         - name: APP_STACK
-          value: "Python | Flask | Jenkins | Kubernetes | ArgoCD | Longhorn | Cloudflare"
+          value: "Python | Flask | Postgres| Jenkins | Kubernetes | ArgoCD | Longhorn | Cloudflare"
         ports:
         - containerPort: 5001
