@@ -7,7 +7,10 @@ metadata:
   annotations:
     argocd-image-updater.argoproj.io/image-list: vending=jirivasm/vending-app:latest
     argocd-image-updater.argoproj.io/vending.update-strategy: digest
-    argocd-image-updater.argoproj.io/write-back-method: argocd
+    argocd-image-updater.argoproj.io/write-back-method: git
+    argocd-image-updater.argoproj.io/git-branch: main  # Force it to push to main
+    argocd-image-updater.argoproj.io/git-commit-user: "ArgoCD Updater"
+    argocd-image-updater.argoproj.io/git-commit-email: "jirivasmo@gmail.com"
   labels:
     argocd-image-updater.argoproj.io/enabled: "true"
 spec:
