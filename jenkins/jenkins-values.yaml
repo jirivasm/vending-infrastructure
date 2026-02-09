@@ -6,8 +6,7 @@ controller:
     limits:
       cpu: "1000m"
       memory: "512Mi"
-  javaOpts: "-Xmx384m -Xms256m"
-  
+
   image:
     repository: jirivasm/custom-jenkins
     tag: "latest"
@@ -21,7 +20,7 @@ controller:
     - docker-commons
     - pipeline-stage-view
   # Use these specific keys for the chart to merge your options
-  javaOpts: "-Dhudson.security.csrf.DefaultCrumbIssuer.EXCLUDE_SESSION_ID=true"
+  javaOpts: "-Xmx384m -Xms256m -Dhudson.security.csrf.DefaultCrumbIssuer.EXCLUDE_SESSION_ID=true"
   jenkinsOpts: "--prefix=/" 
   persistence:
     enabled: true
