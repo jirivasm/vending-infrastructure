@@ -4,6 +4,13 @@ prometheus:
     retention: 10d
     retentionSize: 10GB
     
+    resources:
+      requests:
+        memory: 400Mi  # Note: Use 'Mi', not 'mi'
+        cpu: 100m
+      limits:
+        memory: 1Gi
+        
     storageSpec:
       volumeClaimTemplate:
         spec:
