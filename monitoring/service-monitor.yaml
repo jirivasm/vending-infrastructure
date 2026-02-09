@@ -5,10 +5,13 @@ metadata:
   namespace: longhorn-system
   labels:
     name: longhorn-prometheus-servicemonitor
-    release: monitoring
+    # IMPORTANT: This label must match your Prometheus "serviceMonitorSelector"
+    # If you installed via kube-prometheus-stack, this is usually 'release: <helm-release-name>'
+    release: monitoring-stack
 spec:
   selector:
     matchLabels:
+      # This MUST match the labels on the actual Longhorn Service
       app: longhorn-manager
   namespaceSelector:
     matchNames:
