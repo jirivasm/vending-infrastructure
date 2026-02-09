@@ -1,0 +1,34 @@
+prometheus:
+  prometheusSpec:
+    # Reduce retention so you don't fill your disk immediately
+    retention: 10d
+    retentionSize: 10GB
+    
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: longhorn
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 20Gi
+
+# 2. Configure Grafana Storage
+grafana:
+  persistence:
+    enabled: true
+    storageClassName: longhorn
+    accessModes: ["ReadWriteOnce"]
+    size: 10Gi
+
+# 3. Disable Alertmanager storage (Optional, keeps it simple)
+alertmanager:
+  alertmanagerSpec:
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: longhorn
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 5Gi
