@@ -12,7 +12,7 @@ spec:
     helm:
       # This is the magic part: We tell Argo to read values from YOUR git repo
       valueFiles:
-        - $values/monitoring/monitor-values.yaml 
+        - $values/monitoring/monitoring-values.yaml 
   
   # We need a SECOND source for the values file
   sources:
