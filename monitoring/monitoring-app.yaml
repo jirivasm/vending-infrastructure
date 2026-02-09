@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: monitoring-stack
+  namespace: devops-tools  # Where Argo CD lives
+spec:
+  project: default
+  source:
+    repoURL: https://prometheus-community.github.io/helm-charts
+    chart: kube-prometheus-stack
+    targetRevision: 66.x.x  # Good practice to pin the version!
+    helm:
+      # This is the magic part: We tell Argo to read values from YOUR git repo
+      valueFiles:
+        - $values/monitoring/monitor-values.yaml 
+  
+  # We need a SECOND source for the values file
+  sources:
+    - repoURL: https://prometheus-community.github.io/helm-charts
+      chart: kube-prometheus-stack
+      targetRevision: 66.x.x
+    - repoURL: https://github.com/jirivasm/infra-repo.git  # YOUR REPO HERE
+      targetRevision: main
+      ref: values  # This creates the variable '$values' used above
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true  # Crucial for huge CRDs like Prometheus
