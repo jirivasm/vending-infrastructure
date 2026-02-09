@@ -1,4 +1,13 @@
 controller:
+  resources:
+    requests:
+      cpu: "50m"
+      memory: "256Mi"
+    limits:
+      cpu: "1000m"
+      memory: "512Mi"
+  javaOpts: "-Xmx384m -Xms256m"
+  
   image:
     repository: jirivasm/custom-jenkins
     tag: "latest"
