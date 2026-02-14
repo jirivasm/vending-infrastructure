@@ -1,6 +1,7 @@
 loki:
   enabled: true
   isDefault: false # Only needed if you have other log sources
+  namespace: monitoring
   persistence:
     enabled: true
     storageClassName: longhorn
