@@ -10,7 +10,7 @@ controller:
       cpu: "1000m"
       memory: "512Mi"
   image:
-    repository: jirivasm/custom-jenkins
+    repository: jirivasm/custom-jenkins-agent
     tag: "latest"
     pullPolicy: Always
   overwritePlugins: true
