@@ -3,4 +3,4 @@ name: jenkins-homelab
 description: Jose's Multi-Arch Jenkins Setup
 type: application
 version: 1.0.0
-appVersion: "lts"
+appVersion: "lts" 
