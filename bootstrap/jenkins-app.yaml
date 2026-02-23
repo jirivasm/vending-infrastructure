@@ -8,6 +8,9 @@ spec:
   source:
     repoURL: git@github.com:jirivasm/vending-infrastructure.git
     targetRevision: HEAD
+    helm:
+      valueFiles:
+       - jenkins-values.yaml
     path: jenkins # Or wherever your Jenkins manifests live
   destination:
     server: https://kubernetes.default.svc
