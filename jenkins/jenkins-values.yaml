@@ -1,7 +1,7 @@
 controller:
-  # Keep the controller on the MiniPC (x86)
+  # Moves the controller to the Raspberry Pi
   nodeSelector:
-    kubernetes.io/arch: "amd64"
+    kubernetes.io/arch: "arm64"
   resources:
     requests:
       cpu: "50m"
@@ -10,8 +10,9 @@ controller:
       cpu: "1000m"
       memory: "512Mi"
   image:
-    repository: jirivasm/custom-jenkins-agent
-    tag: "latest"
+    # Use the official multi-arch Jenkins image
+    repository: "jenkins/jenkins"
+    tag: "lts"
     pullPolicy: Always
   overwritePlugins: true
   installPlugins:
@@ -21,20 +22,21 @@ controller:
     - docker-workflow
     - docker-commons
     - pipeline-stage-view
+  # CRITICAL: Keep your Java limits to protect the Pi's RAM
   javaOpts: "-Xmx384m -Xms256m -Dhudson.security.csrf.DefaultCrumbIssuer.EXCLUDE_SESSION_ID=true"
   jenkinsOpts: "--prefix=/" 
   persistence:
     enabled: true
-    existingClaim: "jenkins-pvc"
+    existingClaim: "jenkins-pvc" # Longhorn will move this to the Pi
   serviceType: ClusterIP
 
-# NEW SECTION: This tells Jenkins where to run the builds
 agent:
   enabled: true
-  image: "jirivasm/custom-jenkins-agent" # Use the multi-arch agent you built
+  # Use the official agent image (Kaniko handles the builds)
+  image: "jenkins/inbound-agent" 
   tag: "latest"
   imagePullPolicy: Always
-  # This forces the build to run on your Raspberry Pi nodes
+  # Force the build workers to the Pi
   nodeSelector:
     kubernetes.io/arch: "arm64"
   resources:
@@ -43,4 +45,4 @@ agent:
       memory: "1Gi"
     limits:
       cpu: "1000m"
-      memory: "2Gi" # This limit is key for the Scraper build
+      memory: "2Gi"
