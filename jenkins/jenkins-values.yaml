@@ -1,4 +1,7 @@
 controller:
+  # Keep the controller on the MiniPC (x86)
+  nodeSelector:
+    kubernetes.io/arch: "amd64"
   resources:
     requests:
       cpu: "50m"
@@ -6,7 +9,6 @@ controller:
     limits:
       cpu: "1000m"
       memory: "512Mi"
-
   image:
     repository: jirivasm/custom-jenkins
     tag: "latest"
@@ -19,10 +21,26 @@ controller:
     - docker-workflow
     - docker-commons
     - pipeline-stage-view
-  # Use these specific keys for the chart to merge your options
   javaOpts: "-Xmx384m -Xms256m -Dhudson.security.csrf.DefaultCrumbIssuer.EXCLUDE_SESSION_ID=true"
   jenkinsOpts: "--prefix=/" 
   persistence:
     enabled: true
     existingClaim: "jenkins-pvc"
   serviceType: ClusterIP
+
+# NEW SECTION: This tells Jenkins where to run the builds
+agent:
+  enabled: true
+  image: "jirivasm/custom-jenkins-agent" # Use the multi-arch agent you built
+  tag: "latest"
+  imagePullPolicy: Always
+  # This forces the build to run on your Raspberry Pi nodes
+  nodeSelector:
+    kubernetes.io/arch: "arm64"
+  resources:
+    requests:
+      cpu: "500m"
+      memory: "1Gi"
+    limits:
+      cpu: "1000m"
+      memory: "2Gi" # This limit is key for the Scraper build
