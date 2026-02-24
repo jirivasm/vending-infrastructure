@@ -27,7 +27,7 @@ controller:
   jenkinsOpts: "--prefix=/" 
   persistence:
     enabled: true
-    existingClaim: "jenkins-pvc" # Longhorn will move this to the Pi
+    existingClaim: "jenkins" # Longhorn will move this to the Pi
   serviceType: ClusterIP
 
 agent:
