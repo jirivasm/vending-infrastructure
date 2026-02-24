@@ -4,7 +4,13 @@ repoServer:
     storageClass: "longhorn"  # Updated to use Longhorn
     accessMode: ReadWriteOnce
     size: 5Gi 
-
+  resources:
+    limits:
+      cpu: "1000m"      # Allow it to use a full core during manifest generation
+      memory: "1Gi"     # Bump this to 1Gi to handle Helm/Git tasks
+    requests:
+      cpu: "250m"
+      memory: "512Mi"
 redis:
   enabled: true
   persistence:
@@ -23,6 +29,7 @@ server:
     annotations:
       # Traefik specific annotations
       traefik.ingress.kubernetes.io/router.entrypoints: web
+      traefik.ingress.kubernetes.io/router.middlewares: "traefik-forwarded-proto@kubernetescrd"
       # If using SSL via Traefik/Cloudflare, you might use:
       # traefik.ingress.kubernetes.io/router.tls: "true"
 
