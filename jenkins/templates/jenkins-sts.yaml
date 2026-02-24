@@ -16,7 +16,7 @@ spec:
     spec:
       # This line moves it to the Pi
       nodeSelector:
-        kubernetes.io/arch: {{ .Values.controller.nodeSelector."kubernetes.io/arch" }}
+        kubernetes.io/arch: {{ index .Values.controller.nodeSelector "kubernetes.io/arch" }}
       containers:
       - name: jenkins
         # These lines pull the official image from your values
