@@ -4,11 +4,11 @@ controller:
     kubernetes.io/arch: "arm64"
   resources:
     requests:
-      cpu: "50m"
-      memory: "256Mi"
+      cpu: "200m"
+      memory: "1Gi"
     limits:
       cpu: "1000m"
-      memory: "512Mi"
+      memory: "1.5Gi"
   image:
     # Use the official multi-arch Jenkins image
     repository: "jenkins/jenkins"
@@ -23,7 +23,7 @@ controller:
     - docker-commons
     - pipeline-stage-view
   # CRITICAL: Keep your Java limits to protect the Pi's RAM
-  javaOpts: "-Xmx384m -Xms256m -Dhudson.security.csrf.DefaultCrumbIssuer.EXCLUDE_SESSION_ID=true"
+  javaOpts: "-Xmx1024m -Xms512m -Djava.awt.headless=true -Dhudson.security.csrf.DefaultCrumbIssuer.EXCLUDE_SESSION_ID=true"
   jenkinsOpts: "--prefix=/" 
   persistence:
     enabled: true
