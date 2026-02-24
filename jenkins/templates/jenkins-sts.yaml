@@ -19,7 +19,7 @@ spec:
       labels:
         app: jenkins
         app.kubernetes.io/component: "jenkins-controller"
-      app.kubernetes.io/instance: "jenkins"
+        app.kubernetes.io/instance: "jenkins"
     spec:
       # This line moves it to the Pi
       nodeSelector:
