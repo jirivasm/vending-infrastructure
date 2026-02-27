@@ -18,6 +18,13 @@ spec:
       containers:
       - name: vending-app
         image: jirivasm/vending-app:latest
+        resources:
+          requests:
+            memory: "128Mi"  # Bare minimum RAM needed to start Flask
+            cpu: "100m"      # 1/10th of a CPU core
+          limits:
+            memory: "256Mi"  # Hard cap. Kills the pod if it eats more than 256MB
+            cpu: "250m"
         env:
         - name: DB_HOST
           # The internal DNS name we found earlier
