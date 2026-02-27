@@ -13,6 +13,8 @@ spec:
       labels:
         app: vending-machine
     spec:
+      nodeSelector:
+        kubernetes.io/arch: arm64
       containers:
       - name: vending-app
         image: jirivasm/vending-app:latest
