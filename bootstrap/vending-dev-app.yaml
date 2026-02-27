@@ -5,6 +5,7 @@ metadata:
   namespace: devops-tools
   # The "Secret Sauce" annotations go here!
   annotations:
+    argocd-image-updater.argoproj.io/vending.platforms: linux/arm64
     argocd-image-updater.argoproj.io/image-list: vending=jirivasm/vending-app:latest
     argocd-image-updater.argoproj.io/vending.update-strategy: digest
     argocd-image-updater.argoproj.io/write-back-method: git
