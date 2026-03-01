@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: jenkins
-  namespace: {{ .Values.namespace | default "devops-tools" }}
+  namespace: {{ .Values.namespace | default "jenkins" }}
   labels:
     app.kubernetes.io/component: "jenkins-controller"
     app.kubernetes.io/instance: "jenkins"

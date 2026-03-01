@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: jenkins
-  namespace: jenkins # Stays in your management namespace
+  namespace: argocd # Stays in your management namespace
 spec:
   project: default
   sources:
@@ -14,8 +14,10 @@ spec:
     path: jenkins # Or wherever your Jenkins manifests live
   destination:
     server: https://kubernetes.default.svc
-    namespace: devops-tools # Deploys into the same toolset namespace
+    namespace: jenkins # Deploys into the same toolset namespace
   syncPolicy:
     automated:
       prune: false
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
