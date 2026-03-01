@@ -2,13 +2,15 @@ controller:
   # Moves the controller to the Raspberry Pi
   nodeSelector:
     kubernetes.io/arch: "arm64"
+
   resources:
     requests:
-      cpu: "200m"
+      cpu: "300m"
       memory: "1Gi"
     limits:
       cpu: "1000m"
       memory: "1.5Gi"
+
   image:
     # Use the official multi-arch Jenkins image
     repository: "jenkins/jenkins"
@@ -30,6 +32,18 @@ controller:
     enabled: true
     existingClaim: "jenkins-0" # Longhorn will move this to the Pi
   serviceType: ClusterIP
+
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: web
+      # Optional: Force HTTPS if you have certs set up
+      # traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd
+    hostName: jenkins.yourdomain.com
+    paths:
+      - path: /
+        pathType: Prefix
 
 agent:
   enabled: true
