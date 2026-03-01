@@ -24,7 +24,7 @@ resource "helm_release" "argocd" {
   create_namespace = true
   version          = "7.3.4" # Latest stable version
     values = [
-    file("${path.module}/../bootstrap/argo-values.yaml") 
+    file("${path.module}/../values/argo-values.yaml") 
   ]
   # Ensure the cluster and storage are ready first
   depends_on = [helm_release.longhorn]
@@ -91,53 +91,4 @@ resource "helm_release" "external_secrets" {
 
   # Ensure the cluster is ready
   depends_on = [null_resource.k3s_workers]
-}
-# ==========================================
-# 5. Install Vending app
-# ==========================================
-resource "kubernetes_manifest" "vending_machine_app" {
-  manifest = {
-    apiVersion = "argoproj.io/v1alpha1"
-    kind       = "Application"
-    metadata = {
-      name      = "vending-dev"
-      namespace = "argocd" # Changed from devops-tools to match your new setup
-      
-      annotations = {
-        "argocd-image-updater.argoproj.io/vending.platforms"       = "linux/arm64/v8"
-        "argocd-image-updater.argoproj.io/image-list"             = "vending=jirivasm/vending-app:latest"
-        "argocd-image-updater.argoproj.io/vending.update-strategy" = "digest"
-        "argocd-image-updater.argoproj.io/write-back-method"       = "git"
-        "argocd-image-updater.argoproj.io/git-branch"              = "main"
-        "argocd-image-updater.argoproj.io/git-commit-user"         = "ArgoCD Updater"
-        "argocd-image-updater.argoproj.io/git-commit-email"        = "jirivasmo@gmail.com"
-      }
-      
-      labels = {
-        "argocd-image-updater.argoproj.io/enabled" = "true"
-      }
-    }
-
-    spec = {
-      project = "default"
-      source = {
-        repoURL        = "git@github.com:jirivasm/vending-infrastructure.git"
-        targetRevision = "HEAD"
-        path           = "apps/vending-machine/overlays/dev" 
-      }
-      destination = {
-        server    = "https://kubernetes.default.svc"
-        namespace = "vending-dev"
-      }
-      syncPolicy = {
-        automated = {
-          prune    = true
-          selfHeal = true
-        }
-        syncOptions = ["CreateNamespace=true"]
-      }
-    }
-  }
-
-  depends_on = [kubernetes_manifest.github_external_secret]
 }
