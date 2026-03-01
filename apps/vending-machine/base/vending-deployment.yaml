@@ -28,7 +28,7 @@ spec:
         env:
         - name: DB_HOST
           # The internal DNS name we found earlier
-          value: "postgresql.database.svc.cluster.local"
+          value: "postgres-db-postgresql.vending-dev.svc.cluster.local"
         - name: DB_USER
           value: "postgres"
         - name: DB_NAME
