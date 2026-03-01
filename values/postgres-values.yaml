@@ -10,5 +10,8 @@ primary:
     enabled: true
     storageClass: "longhorn"
     size: 8Gi
+    annotations: 
+      # This helps Longhorn pick the right node
+      longhorn.io/data-locality: "best-effort"
 
 resourcesPreset: "small"
