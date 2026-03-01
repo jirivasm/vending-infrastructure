@@ -1,17 +1,23 @@
-piVersion: argoproj.io/v1alpha1
+apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: postgres-db
   namespace: argocd
 spec:
   project: default
-  sources:
-    repoURL: https://charts.bitnami.com/bitnami
-    chart: postgresql
-    targetRevision: 15.5.x
-    helm:
-      valueFiles:
-        - git@github.com:jirivasm/vending-infrastructure.git/values/postgres-values.yaml
+  # Notice the dash (-) below, creating a list of two separate sources
+  sources: 
+    - repoURL: https://charts.bitnami.com/bitnami
+      chart: postgresql
+      targetRevision: 15.5.x
+      helm:
+        valueFiles:
+          # This references the Git repo alias we create below
+          - $my-git-repo/values/postgres-values.yaml
+    - repoURL: git@github.com:jirivasm/vending-infrastructure.git
+      targetRevision: HEAD
+      ref: my-git-repo # This creates the alias
+      path: '.' # This stops the UI from crashing!
   destination:
     server: https://kubernetes.default.svc
     namespace: vending-dev
@@ -28,12 +34,21 @@ metadata:
 spec:
   project: default
   sources:
-    repoURL: https://runix.github.io/charts
-    chart: pgadmin4
-    targetRevision: 1.35.x
-    helm:
-      valueFiles:
-        - git@github.com:jirivasm/vending-infrastructure.git/postgress/pgadmin-values.yaml
+    - repoURL: https://runix.github.io/charts
+      chart: pgadmin4
+      targetRevision: 1.35.x
+      helm:
+        valueFiles:
+          # Assuming this is your folder structure based on your snippet
+          - $my-git-repo/values/pgadmin-values.yaml 
+    - repoURL: git@github.com:jirivasm/vending-infrastructure.git
+      targetRevision: HEAD
+      ref: my-git-repo
+      path: '.'
   destination:
     server: https://kubernetes.default.svc
     namespace: vending-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
