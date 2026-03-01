@@ -20,9 +20,12 @@ ingress:
   # Using ingressClassName instead of the deprecated annotation
   ingressClassName: "traefik" 
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    traefik.ingress.kubernetes.io/router.entrypoints: web
   hosts:
     - host: pgadmin.jirivasm.dev
       paths:
         - path: /
           pathType: Prefix
+service:
+  type: ClusterIP
+  port: 80
