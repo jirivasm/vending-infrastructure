@@ -6,12 +6,15 @@ metadata:
 spec:
   project: default
   sources:
-    repoURL: git@github.com:jirivasm/vending-infrastructure.git
-    targetRevision: HEAD
-    helm:
+    - repoURL: 'https://charts.jenkins.io'
+      chart: jenkins
+      targetRevision: 5.1.0
+    - repoURL: git@github.com:jirivasm/vending-infrastructure.git
+      targetRevision: HEAD
+      helm:
       valueFiles:
        - /values/jenkins-values.yaml
-    path: jenkins # Or wherever your Jenkins manifests live
+      path: jenkins # Or wherever your Jenkins manifests live
   destination:
     server: https://kubernetes.default.svc
     namespace: jenkins # Deploys into the same toolset namespace
