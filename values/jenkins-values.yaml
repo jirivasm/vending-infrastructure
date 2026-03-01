@@ -14,7 +14,7 @@ controller:
   image:
     # Use the official multi-arch Jenkins image
     repository: "jenkins/jenkins"
-    tag: "lts"
+    tag: "2.479.3-jdk17" # <--- FIXED: Bumped from "lts" to prevent plugin crash
     pullPolicy: Always
   overwritePlugins: true
   installPlugins:
@@ -48,9 +48,10 @@ controller:
 agent:
   enabled: true
   # Use the official agent image (Kaniko handles the builds)
-  image: "jenkins/inbound-agent" 
-  tag: "latest"
-  imagePullPolicy: Always
+  image: # <--- FIXED: Turned into a dictionary
+    repository: "jenkins/inbound-agent" 
+    tag: "latest"
+    pullPolicy: Always
   # Force the build workers to the Pi
   nodeSelector:
     kubernetes.io/arch: "arm64"
