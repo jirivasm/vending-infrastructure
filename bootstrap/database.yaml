@@ -1,26 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: postgres-db
+  name: cluster-secrets
   namespace: argocd
 spec:
   project: default
-  # Notice the dash (-) below, creating a list of two separate sources
-  sources: 
-    - repoURL: https://charts.bitnami.com/bitnami
-      chart: postgresql
-      targetRevision: 15.5.x
-      helm:
-        valueFiles:
-          # This references the Git repo alias we create below
-          - $my-git-repo/values/postgres-values.yaml
-    - repoURL: git@github.com:jirivasm/vending-infrastructure.git
-      targetRevision: HEAD
-      ref: my-git-repo # This creates the alias
-      path: '.' # This stops the UI from crashing!
+  # 1. MUST be 'source' (singular) because we are only looking at one Git folder
+  source: 
+    repoURL: git@github.com:jirivasm/vending-infrastructure.git
+    targetRevision: HEAD
+    path: secrets 
   destination:
     server: https://kubernetes.default.svc
-    namespace: vending-dev
   syncPolicy:
     automated:
       prune: true
@@ -33,14 +24,14 @@ metadata:
   namespace: argocd
 spec:
   project: default
+  # 2. 'sources' (plural AND a list with dashes) to combine Runix Helm + Git values
   sources:
     - repoURL: https://runix.github.io/charts
       chart: pgadmin4
       targetRevision: 1.35.x
       helm:
         valueFiles:
-          # Assuming this is your folder structure based on your snippet
-          - $my-git-repo/values/pgadmin-values.yaml 
+          - $my-git-repo/values/pgadmin-values.yaml # Adjust this path if you kept it in the 'postgress/' folder!
     - repoURL: git@github.com:jirivasm/vending-infrastructure.git
       targetRevision: HEAD
       ref: my-git-repo
