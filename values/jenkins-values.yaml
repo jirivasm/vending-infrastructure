@@ -30,7 +30,7 @@ controller:
   jenkinsOpts: "--prefix=/" 
   persistence:
     enabled: true
-    existingClaim: "jenkins-0" # Longhorn will move this to the Pi
+    existingClaim: "jenkins" # Longhorn will move this to the Pi
   serviceType: ClusterIP
 
   ingress:
