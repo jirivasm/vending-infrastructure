@@ -10,6 +10,9 @@ spec:
     - repoURL: 'https://charts.jenkins.io'
       chart: jenkins
       targetRevision: 5.7.13 # A more modern version of the chart
+      helm:
+        valueFiles:
+          - $my-git-repo/values/jenkins-values.yaml
     # Source 2: Your personal configuration
     - repoURL: git@github.com:jirivasm/vending-infrastructure.git
       targetRevision: HEAD
@@ -24,6 +27,4 @@ spec:
     syncOptions:
       - CreateNamespace=true
   # This block must move OUTSIDE of the sources list to apply to both
-  helm:
-    valueFiles:
-      - $my-git-repo/values/jenkins-values.yaml
+  
