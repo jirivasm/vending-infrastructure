@@ -34,7 +34,7 @@ controller:
     ingressClassName: traefik
     annotations:
       traefik.ingress.kubernetes.io/router.entrypoints: web
-    hostName: jenkins.yourdomain.com
+    hostName: jenkins.jirivasm.dev
     paths:
       - path: /
         pathType: Prefix
