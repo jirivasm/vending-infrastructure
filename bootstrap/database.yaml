@@ -35,9 +35,37 @@ spec:
     - repoURL: git@github.com:jirivasm/vending-infrastructure.git
       targetRevision: HEAD
       ref: my-git-repo
+      path: '.'
   destination:
     server: https://kubernetes.default.svc
     namespace: vending-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: postgres-db
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    # 1. The code for the database (Bitnami)
+    - repoURL: https://charts.bitnami.com/bitnami
+      chart: postgresql
+      targetRevision: 15.5.38
+      helm:
+        valueFiles:
+          - $my-infra-repo/values/postgres-values.yaml # <--- This fixes the Docker error!
+    # 2. Your configuration (Git)
+    - repoURL: git@github.com:jirivasm/vending-infrastructure.git
+      targetRevision: HEAD
+      ref: my-infra-repo
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: vending-dev # Keep it in the same namespace as your app!
   syncPolicy:
     automated:
       prune: true
