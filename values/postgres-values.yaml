@@ -24,3 +24,10 @@ primary:
     annotations: 
       longhorn.io/data-locality: "best-effort"
   resourcesPreset: "small"
+  initContainers:
+    - name: fix-permissions
+      image: alpine:latest
+      command: ["sh", "-c", "chown -R 1001:1001 /bitnami/postgresql"]
+      volumeMounts:
+        - name: data
+          mountPath: /bitnami/postgresql
