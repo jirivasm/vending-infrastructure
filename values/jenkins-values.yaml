@@ -38,6 +38,11 @@ controller:
     paths:
       - path: /
         pathType: Prefix
+        backend:
+          service:
+            name: jenkins
+            port:
+              number: 8080
 
 # 🚨 MOVED TO THE ROOT LEVEL 🚨
 persistence:
