@@ -63,6 +63,7 @@ spec:
     - repoURL: git@github.com:jirivasm/vending-infrastructure.git
       targetRevision: HEAD
       ref: my-infra-repo
+      path: '.'
   destination:
     server: https://kubernetes.default.svc
     namespace: vending-dev # Keep it in the same namespace as your app!
