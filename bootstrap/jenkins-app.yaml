@@ -5,7 +5,7 @@ metadata:
   namespace: jenkins # Stays in your management namespace
 spec:
   project: default
-  source:
+  sources:
     repoURL: git@github.com:jirivasm/vending-infrastructure.git
     targetRevision: HEAD
     helm:
