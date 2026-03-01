@@ -2,25 +2,28 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: jenkins
-  namespace: argocd # Stays in your management namespace
+  namespace: argocd
 spec:
   project: default
   sources:
+    # Source 1: The official Jenkins logic
     - repoURL: 'https://charts.jenkins.io'
       chart: jenkins
-      targetRevision: 5.1.0
+      targetRevision: 5.7.13 # A more modern version of the chart
+    # Source 2: Your personal configuration
     - repoURL: git@github.com:jirivasm/vending-infrastructure.git
       targetRevision: HEAD
-      helm:
-      valueFiles:
-       - $my-git-repo/values/jenkins-values.yaml
-      path: jenkins # Or wherever your Jenkins manifests live
+      ref: my-git-repo # This creates the variable $my-git-repo
   destination:
     server: https://kubernetes.default.svc
-    namespace: jenkins # Deploys into the same toolset namespace
+    namespace: jenkins
   syncPolicy:
     automated:
       prune: false
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+  # This block must move OUTSIDE of the sources list to apply to both
+  helm:
+    valueFiles:
+      - $my-git-repo/values/jenkins-values.yaml
