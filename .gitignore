@@ -3,3 +3,8 @@ id_ed25519_argocd
 argocd-repo-secret.yaml
 argocd_rw_key*
 terraform.tfvars
+.terraform.*
+terraform.*
+terraform-provider*
+LICENSE.txt
+
