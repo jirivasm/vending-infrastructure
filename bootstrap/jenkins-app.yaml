@@ -10,7 +10,7 @@ spec:
     targetRevision: HEAD
     helm:
       valueFiles:
-       - jenkins-values.yaml
+       - /values/jenkins-values.yaml
     path: jenkins # Or wherever your Jenkins manifests live
   destination:
     server: https://kubernetes.default.svc

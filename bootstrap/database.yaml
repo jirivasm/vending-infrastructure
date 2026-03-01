@@ -11,7 +11,7 @@ spec:
     targetRevision: 15.5.x
     helm:
       valueFiles:
-        - git@github.com:jirivasm/vending-infrastructure.git/postgress/postgres-values.yaml
+        - git@github.com:jirivasm/vending-infrastructure.git/values/postgres-values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: vending-dev
