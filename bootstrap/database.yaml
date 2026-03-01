@@ -26,7 +26,7 @@ spec:
   project: default
   # 2. 'sources' (plural AND a list with dashes) to combine Runix Helm + Git values
   sources:
-    - repoURL: https://runix.github.io/charts
+    - repoURL: https://helm.runix.net
       chart: pgadmin4
       targetRevision: 1.35.x
       helm:
