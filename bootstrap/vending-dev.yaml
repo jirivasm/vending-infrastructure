@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vending-dev
+  namespace: argocd
+  labels:
+    argocd-image-updater.argoproj.io/enabled: "true"
+  annotations:
+    argocd-image-updater.argoproj.io/vending.platforms: "linux/arm64/v8"
+    argocd-image-updater.argoproj.io/image-list: "vending=jirivasm/vending-app:latest"
+    argocd-image-updater.argoproj.io/vending.update-strategy: "digest"
+    argocd-image-updater.argoproj.io/write-back-method: "git"
+    argocd-image-updater.argoproj.io/git-branch: "main"
+    argocd-image-updater.argoproj.io/git-commit-user: "ArgoCD Updater"
+    argocd-image-updater.argoproj.io/git-commit-email: "jirivasmo@gmail.com"
+spec:
+  project: default
+  source:
+    repoURL: git@github.com:jirivasm/vending-infrastructure.git
+    targetRevision: HEAD
+    path: apps/vending-machine/overlays/dev
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: vending-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    # This automatically creates the vending-dev namespace if it's missing!
+    syncOptions:
+      - CreateNamespace=true
