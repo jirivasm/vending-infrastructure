@@ -1,3 +1,0 @@
-kustomize:
-  images:
-  - jirivasm/vending-app@sha256:2fbcf97823fdc49896184dde2f3a16d9f9ca58361fc65f27d04df4347724e7b7

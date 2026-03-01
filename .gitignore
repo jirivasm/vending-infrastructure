@@ -2,3 +2,4 @@ id_ed25519_argocd
 *.pub
 argocd-repo-secret.yaml
 argocd_rw_key*
+terraform.tfvars
