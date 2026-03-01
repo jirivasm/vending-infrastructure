@@ -18,7 +18,7 @@ spec:
   source:
     repoURL: git@github.com:jirivasm/vending-infrastructure.git
     targetRevision: HEAD
-    path: overlays/dev
+    path: apps/vending-machine/overlays/dev
   destination:
     server: https://kubernetes.default.svc
     namespace: vending-dev
