@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: jenkins
-  namespace: devops-tools # Stays in your management namespace
+  namespace: jenkins # Stays in your management namespace
 spec:
   project: default
   source:

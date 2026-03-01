@@ -2,7 +2,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: jenkins-agent-manager
-  namespace: devops-tools
+  namespace: jenkins
 rules:
 - apiGroups: [""]
   resources: ["pods", "pods/exec", "pods/log", "events"] # Added events
