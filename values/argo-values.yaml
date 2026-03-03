@@ -7,9 +7,9 @@ repoServer:
   resources:
     limits:
       cpu: "1000m"      # Allow it to use a full core during manifest generation
-      memory: "1Gi"     # Bump this to 1Gi to handle Helm/Git tasks
+      memory: "1.5Gi"     # Bump this to 1Gi to handle Helm/Git tasks
     requests:
-      cpu: "250m"
+      cpu: "500m"
       memory: "512Mi"
 redis:
   enabled: true
@@ -37,8 +37,8 @@ server:
 global:
   resources:
     limits:
-      cpu: 500m
-      memory: 512Mi
+      cpu: 1000m
+      memory: 1G1
     requests:
-      cpu: 100m
-      memory: 256Mi
+      cpu: 250m
+      memory: 512Mi
