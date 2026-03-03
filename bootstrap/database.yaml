@@ -47,7 +47,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: postgres-db
+  name: postgres-db-dev
   namespace: argocd
 spec:
   project: default
@@ -75,7 +75,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: postgres-db
+  name: postgres-db-prod
   namespace: argocd
 spec:
   project: default
