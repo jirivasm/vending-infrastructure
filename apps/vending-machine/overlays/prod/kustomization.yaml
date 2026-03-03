@@ -28,7 +28,7 @@ patches:
           - name: vending-app 
             env:
             - name: DB_NAME
-              value: "vending-machine-prod"
+              value: "vending-machine"
             - name: DB_HOST
               value: "postgres-db-prod-postgresql"
             - name: DB_USER
