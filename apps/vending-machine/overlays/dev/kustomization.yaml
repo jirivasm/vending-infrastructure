@@ -28,15 +28,9 @@ patches:
           - name: vending-app 
             env:
             - name: DB_HOST
-              value: "postgres-db-postgresql"
+              value: "postgres-db-dev-postgresql"
             - name: DB_USER
               value: "postgres"
-            # ADD THIS BLOCK BELOW:
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-auth-secret
-                  key: postgres-password
 # 2. Patch the Ingress for your Dev Cloudflare URL
 - target:
     kind: Ingress

@@ -27,12 +27,9 @@ spec:
             cpu: "250m"
         env:
         - name: DB_HOST
-          # The internal DNS name we found earlier
           value: "postgres-db-postgresql"
-        - name: DB_USER
-          value: "postgres"
         - name: DB_NAME
-          value: "postgres"
+          value: "vending_machine"
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:

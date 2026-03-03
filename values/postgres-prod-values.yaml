@@ -1,0 +1,34 @@
+# 1. Global Auth Settings
+fullnameOverride: "postgres-db-prod-postgresql"
+global:
+  postgresql:
+    auth:
+      existingSecret: "postgres-auth-secret"
+      database: "vending-machine-prod"
+      secretKeys:
+        userPasswordKey: "postgres-password"
+
+# 2. THE FIX: Image must be at the ROOT level, completely outside of 'primary'
+image:
+  registry: public.ecr.aws
+  repository: bitnami/postgresql
+  tag: "18"
+
+# 3. Primary Node Settings (Storage and Resources)
+primary:
+  nodeSelector:
+    kubernetes.io/arch: amd64
+  persistence:
+    enabled: true
+    storageClass: "longhorn"
+    size: 8Gi
+    annotations: 
+      longhorn.io/data-locality: "best-effort"
+  resourcesPreset: "small"
+  initContainers:
+    - name: fix-permissions
+      image: alpine:latest
+      command: ["sh", "-c", "chown -R 1001:1001 /bitnami/postgresql"]
+      volumeMounts:
+        - name: data
+          mountPath: /bitnami/postgresql

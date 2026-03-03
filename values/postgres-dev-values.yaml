@@ -1,9 +1,10 @@
+fullnameOverride: "postgres-db-dev-postgresql"
 # 1. Global Auth Settings
 global:
   postgresql:
     auth:
       existingSecret: "postgres-auth-secret"
-      database: "vending_machine"
+      database: "vending-machine-dev"
       secretKeys:
         userPasswordKey: "postgres-password"
 
