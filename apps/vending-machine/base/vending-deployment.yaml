@@ -31,9 +31,8 @@ spec:
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
-              # Point to the SAME secret pgAdmin is using
               name: postgres-auth-secret
-              key: postgresql-password
+              key: postgres-password
         - name: APP_STACK
           value: "Python | Flask | Postgres| Jenkins | Kubernetes | ArgoCD | Longhorn | Cloudflare | Prometheus | Grafana | Loki"
         ports:
