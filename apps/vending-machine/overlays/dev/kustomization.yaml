@@ -27,6 +27,8 @@ patches:
           containers:
           - name: vending-app 
             env:
+            - name: DB_NAME
+              value: "vending-machine-dev"
             - name: DB_HOST
               value: "postgres-db-dev-postgresql"
             - name: DB_USER
