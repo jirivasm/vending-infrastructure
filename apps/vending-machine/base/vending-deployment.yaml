@@ -26,8 +26,6 @@ spec:
             memory: "256Mi"  # Hard cap. Kills the pod if it eats more than 256MB
             cpu: "250m"
         env:
-        - name: DB_HOST
-          value: "postgres-db-postgresql"
         - name: DB_NAME
           value: "vending_machine"
         - name: DB_PASSWORD
