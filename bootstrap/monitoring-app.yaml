@@ -20,9 +20,11 @@ spec:
       helm:
         valueFiles:
         - $my-git-repo/values/loki-values.yaml
+      
 
     - repoURL: git@github.com:jirivasm/vending-infrastructure.git  # YOUR REPO HERE
       targetRevision: main
+      path: monitoring
       ref: my-git-repo 
 
   destination:
