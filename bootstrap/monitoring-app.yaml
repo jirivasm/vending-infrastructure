@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: monitoring-stack
-  namespace: monitoring  # Where Argo CD lives
+  namespace: argocd  # Where Argo CD lives
 spec:
   project: default
   sources:
