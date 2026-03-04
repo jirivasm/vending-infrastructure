@@ -4,6 +4,10 @@ prometheus:
     retention: 10d
     retentionSize: 10GB
     
+    # Target your Raspberry Pis instead of the Mini PC
+    nodeSelector:
+      kubernetes.io/arch: arm64
+
     resources:
       requests:
         memory: 400Mi  # Note: Use 'Mi', not 'mi'
@@ -22,11 +26,24 @@ prometheus:
 
 # 2. Configure Grafana Storage
 grafana:
+  enabled: true
+  nodeSelector:
+    kubernetes.io/arch: arm64
+  ingress:
+    enabled: true
+    ingressClassName: traefik  # Tells K3s to use Traefik
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: web
+    hosts:
+      - grafana.jirivasm.dev
+    path: /
+
   persistence:
     enabled: true
     storageClassName: longhorn
     accessModes: ["ReadWriteOnce"]
     size: 10Gi
+
 
 # 3. Disable Alertmanager storage (Optional, keeps it simple)
 alertmanager:

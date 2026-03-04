@@ -1,6 +1,8 @@
 loki:
   enabled: true
   isDefault: false # Only needed if you have other log sources
+  nodeSelector:
+    kubernetes.io/arch: arm64
   namespace: monitoring
   persistence:
     enabled: true

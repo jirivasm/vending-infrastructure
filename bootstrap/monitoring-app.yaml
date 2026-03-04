@@ -2,26 +2,28 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: monitoring-stack
-  namespace: devops-tools  # Where Argo CD lives
+  namespace: monitoring  # Where Argo CD lives
 spec:
   project: default
-  source:
-    repoURL: https://prometheus-community.github.io/helm-charts
-    chart: kube-prometheus-stack
-    targetRevision: 66.x.x  # Good practice to pin the version!
-    helm:
-      # This is the magic part: We tell Argo to read values from YOUR git repo
-      valueFiles:
-        - $values/monitoring/monitoring-values.yaml 
-  
-  # We need a SECOND source for the values file
   sources:
     - repoURL: https://prometheus-community.github.io/helm-charts
       chart: kube-prometheus-stack
-      targetRevision: 66.x.x
+      targetRevision: 66.x.x  # Good practice to pin the version!
+      helm:
+      # This is the magic part: We tell Argo to read values from YOUR git repo
+        valueFiles:
+          - $my-git-repo/values/monitoring-values.yaml
+
+    - repoURL: https://grafana.github.io/helm-charts
+      chart: loki-stack
+      targetRevision: "2.9.11"
+      helm:
+        valueFiles:
+        - $my-git-repo/values/loki-values.yaml
+
     - repoURL: git@github.com:jirivasm/vending-infrastructure.git  # YOUR REPO HERE
       targetRevision: main
-      ref: values  # This creates the variable '$values' used above
+      ref: my-git-repo 
 
   destination:
     server: https://kubernetes.default.svc
