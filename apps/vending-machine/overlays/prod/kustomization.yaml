@@ -30,7 +30,7 @@ patches:
             - name: DB_NAME
               value: "vending_machine"
             - name: DB_HOST
-              value: "postgres-db-prod-postgresql"
+              value: "postgres-db-prod-postgresql.vending-prod.svc.cluster.local"
             - name: DB_USER
               value: "postgres"
 
