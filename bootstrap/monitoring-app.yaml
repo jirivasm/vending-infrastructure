@@ -8,7 +8,7 @@ spec:
   sources:
     - repoURL: https://prometheus-community.github.io/helm-charts
       chart: kube-prometheus-stack
-      targetRevision: 66.x.x  # Good practice to pin the version!
+      targetRevision: 69.3.1  # Good practice to pin the version!
       helm:
       # This is the magic part: We tell Argo to read values from YOUR git repo
         valueFiles:
