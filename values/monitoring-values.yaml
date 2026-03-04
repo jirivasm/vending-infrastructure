@@ -29,6 +29,13 @@ grafana:
   enabled: true
   nodeSelector:
     kubernetes.io/arch: arm64
+  additionalDataSources:
+    - name: Loki
+      type: loki
+      access: proxy
+      url: http://loki-stack.monitoring.svc.cluster.local:3100
+      version: 1
+      editable: false
   ingress:
     enabled: true
     ingressClassName: traefik  # Tells K3s to use Traefik
