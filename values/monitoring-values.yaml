@@ -2,7 +2,7 @@ prometheus:
   prometheusSpec:
     # Reduce retention so you don't fill your disk immediately
     retention: 10d
-    retentionSize: 10GB
+    retentionSize: 5GB
     
     # Target your Raspberry Pis instead of the Mini PC
     nodeSelector:
@@ -22,7 +22,7 @@ prometheus:
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:
-              storage: 20Gi
+              storage: 5Gi
 
 # 2. Configure Grafana Storage
 grafana:
@@ -49,7 +49,7 @@ grafana:
     enabled: true
     storageClassName: longhorn
     accessModes: ["ReadWriteOnce"]
-    size: 10Gi
+    size: 5Gi
 
 
 # 3. Disable Alertmanager storage (Optional, keeps it simple)
