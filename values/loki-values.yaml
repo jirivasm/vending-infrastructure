@@ -1,5 +1,7 @@
 loki:
   enabled: true
+  image:
+    tag: 2.9.11
   isDefault: false # Only needed if you have other log sources
   nodeSelector:
     kubernetes.io/arch: arm64
