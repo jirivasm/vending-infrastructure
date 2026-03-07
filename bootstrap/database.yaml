@@ -38,7 +38,6 @@ spec:
       path: '.'
   destination:
     server: https://kubernetes.default.svc
-    namespace: vending-dev
   syncPolicy:
     automated:
       prune: true
