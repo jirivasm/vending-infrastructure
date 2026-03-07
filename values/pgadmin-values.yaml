@@ -8,7 +8,7 @@ secretKeys:
   pgadminPasswordKey: "admin-password" 
 
 # 3. Storage for your Chicago Home Lab
-persistence:
+persistentVolume:
   enabled: true
   storageClass: "longhorn"
   accessMode: ReadWriteOnce
