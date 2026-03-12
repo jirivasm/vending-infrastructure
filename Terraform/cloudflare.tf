@@ -6,15 +6,32 @@ resource "kubernetes_namespace" "networking" {
 }
 
 # 2. Create the Tunnel Secret
-resource "kubernetes_secret" "cloudflare_token" {
-  metadata {
-    name      = "cloudflare-tunnel-token"
-    namespace = kubernetes_namespace.networking.metadata[0].name
-  }
-
-  type = "Opaque"
-  data = {
-    token = var.cloudflare_token
+resource "kubernetes_manifest" "cloudflare_external_secret" {
+  manifest = {
+    apiVersion = "external-secrets.io/v1beta1"
+    kind       = "ExternalSecret"
+    metadata = {
+      name      = "cloudflare-tunnel-token"
+      namespace = kubernetes_namespace.networking.metadata[0].name
+    }
+    spec = {
+      secretStoreRef = {
+        name = "vault-backend"
+        kind = "ClusterSecretStore"
+      }
+      target = {
+        name = "cloudflare-tunnel-token" # Name of the secret ESO will create
+      }
+      data = [
+        {
+          secretKey = "token" # This is the KEY inside the secret cloudflared will look for
+          remoteRef = {
+            key      = "cloudflare" # The path in Vault UI
+            property = "cloudflare" # The field name inside Vault
+          }
+        }
+      ]
+    }
   }
 }
 
@@ -50,7 +67,7 @@ resource "kubernetes_deployment" "cloudflared" {
             name = "TUNNEL_TOKEN"
             value_from {
               secret_key_ref {
-                name = kubernetes_secret.cloudflare_token.metadata[0].name
+                name = "cloudflare-tunnel-token"
                 key  = "token"
               }
             }
@@ -59,4 +76,5 @@ resource "kubernetes_deployment" "cloudflared" {
       }
     }
   }
+  depends_on = [kubernetes_manifest.cloudflare_external_secret]
 }

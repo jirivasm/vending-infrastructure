@@ -23,8 +23,14 @@ resource "helm_release" "argocd" {
   namespace        = "argocd"
   create_namespace = true
   version          = "7.3.4" # Latest stable version
+
+  repository_key_file        = "" 
+  repository_cert_file       = ""
+  repository_ca_file         = ""
+  
     values = [
-    file("${path.module}/../values/argo-values.yaml") 
+    # Just point to the standard values (Ingress, Resources, etc.)
+    file("../values/argo-values.yaml") 
   ]
   # Ensure the cluster and storage are ready first
   depends_on = [helm_release.longhorn]
@@ -88,6 +94,17 @@ resource "helm_release" "external_secrets" {
     name  = "installCRDs"
     value = "true"
   }
+  values = [
+    <<-EOT
+    resources:
+      requests:
+        cpu: 10m
+        memory: 64Mi
+      limits:
+        cpu: 50m
+        memory: 128Mi
+    EOT
+  ]
 
   # Ensure the cluster is ready
   depends_on = [null_resource.k3s_workers]

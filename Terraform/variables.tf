@@ -25,8 +25,3 @@ variable "k3s_token" {
   sensitive   = true
   default     = "SuperSecretK3sToken123!" 
 }
-variable "cloudflare_token" {
-  description = "Token for the Cloudflare Tunnel"
-  type        = string
-  sensitive   = true # This hides the token from your terminal logs!
-}

@@ -76,3 +76,43 @@ resource "kubernetes_manifest" "github_external_secret" {
 
   depends_on = [kubernetes_manifest.vault_backend]
 }
+resource "kubernetes_manifest" "scraper_external_secret" {
+  manifest = {
+    apiVersion = "external-secrets.io/v1beta1"
+    kind       = "ExternalSecret"
+    metadata = {
+      name      = "argocd-scraper-creds" # Unique Name
+      namespace = "argocd"
+    }
+    spec = {
+      secretStoreRef = {
+        name = "vault-backend"
+        kind = "ClusterSecretStore"
+      }
+      target = {
+        name = "argocd-scraper-creds" # Unique Target Name
+        template = {
+          metadata = {
+            labels = {
+              "argocd.argoproj.io/secret-type" = "repository"
+            }
+          }
+          data = {
+            type          = "git"
+            url           = "git@github.com:jirivasm/WorkSearch.git"
+            sshPrivateKey = "{{ .ssh_key }}" 
+          }
+        }
+      }
+      data = [
+        {
+          secretKey = "ssh_key"
+          remoteRef = {
+            key      = "github-creds"
+            property = "ssh-private-key"
+          }
+        }
+      ]
+    }
+  }
+}
