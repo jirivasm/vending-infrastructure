@@ -12,7 +12,7 @@ controller:
 
   image:
     repository: "jenkins/jenkins"
-    tag: "2.479.3-jdk17" 
+    tag: "2.492.1-jdk17" 
     pullPolicy: Always
     
   overwritePlugins: true
