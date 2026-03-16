@@ -33,6 +33,7 @@ resource "kubernetes_manifest" "cloudflare_external_secret" {
       ]
     }
   }
+  depends_on = [helm_release.external_secrets, kubernetes_manifest.vault_backend]
 }
 
 # 3. Deploy the Cloudflared Agent
@@ -76,5 +77,6 @@ resource "kubernetes_deployment" "cloudflared" {
       }
     }
   }
-  depends_on = [kubernetes_manifest.cloudflare_external_secret]
+  wait_for_rollout = false
+  depends_on = [kubernetes_manifest.cloudflare_external_secret, kubernetes_manifest.vault_backend]
 }

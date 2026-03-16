@@ -25,3 +25,13 @@ variable "k3s_token" {
   sensitive   = true
   default     = "SuperSecretK3sToken123!" 
 }
+variable "minio_user" {
+  description = "MinIO Access Key"
+  type        = string
+  sensitive   = true
+}
+variable "minio_password" {
+  description = "MinIO Secret Key"
+  type        = string
+  sensitive   = true
+}

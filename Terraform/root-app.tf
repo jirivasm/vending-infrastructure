@@ -1,3 +1,5 @@
+
+
 resource "kubernetes_manifest" "root_app" {
   manifest = {
     apiVersion = "argoproj.io/v1alpha1"
@@ -28,5 +30,6 @@ resource "kubernetes_manifest" "root_app" {
   }
 
   # Very important: Ensure the SSH secret is ready before the Root App tries to pull from Git
-  depends_on = [kubernetes_manifest.github_external_secret]
+  depends_on = [kubernetes_manifest.github_external_secret, helm_release.argocd]
 }
+*/

@@ -115,4 +115,6 @@ resource "kubernetes_manifest" "scraper_external_secret" {
       ]
     }
   }
+  depends_on = [kubernetes_manifest.vault_backend]
 }
+*/
