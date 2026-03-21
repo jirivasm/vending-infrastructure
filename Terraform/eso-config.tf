@@ -24,7 +24,7 @@ resource "kubernetes_manifest" "vault_backend" {
       }
     }
   }
-  depends_on = [helm_release.external_secrets, helm_release.vault]
+  depends_on = [helm_release.external_secrets, helm_release.vault, kubernetes_secret.eso_vault_token]
 }
 resource "kubernetes_manifest" "github_external_secret" {
   manifest = {
@@ -116,4 +116,19 @@ resource "kubernetes_manifest" "scraper_external_secret" {
     }
   }
   depends_on = [kubernetes_manifest.vault_backend]
+}
+resource "kubernetes_secret" "eso_vault_token" {
+  metadata {
+    name      = "vault-token"
+    namespace = "external-secrets" # Ensure this matches the ESO installation
+  }
+
+  data = {
+    token = var.vault_root_token
+  }
+
+  type = "Opaque"
+  depends_on = [
+    helm_release.external_secrets
+  ]
 }

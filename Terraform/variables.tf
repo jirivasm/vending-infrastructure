@@ -38,3 +38,8 @@ variable "minio_password" {
   type        = string
   sensitive   = true
 }
+variable "vault_root_token" {
+  type        = string
+  description = "The Vault token used by External Secrets Operator"
+  sensitive   = true
+}

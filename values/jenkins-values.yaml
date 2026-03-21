@@ -1,4 +1,7 @@
 controller:
+  runAsUser: 1000
+  podSecurityContext:
+    fsGroup: 1000
   nodeSelector:
     kubernetes.io/arch: "arm64"
 
