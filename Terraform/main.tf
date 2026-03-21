@@ -24,51 +24,59 @@ provider "kubernetes" {
   config_path = pathexpand("~/.kube/config")
 }
 
-# 1. Provision the Master Node (miniPC)
-resource "null_resource" "k3s_master" {
-  triggers = {
-    master_ip = var.master_ip
-  }
-
+#Provision the first master node 
+resource "null_resource" "k3s_init" {
   connection {
-    type     = "ssh"
-    user     = var.ssh_user
-    password = var.ssh_password
-    host     = var.master_ip
+    type        = "ssh"
+    user        = var.ssh_user
+    private_key = file("C:/Users/jiriv/.ssh/home-lab-key") # Path to your local private key
+    host        = var.master_ips[0]
   }
 
   provisioner "remote-exec" {
     inline = [
-      "echo 'Downloading K3s installer...'",
-      "curl -sfL https://get.k3s.io -o install.sh",
-      "chmod +x install.sh",
-      "echo 'Running Master installation...'",
-      "echo '${var.ssh_password}' | sudo -S sh -c 'K3S_TOKEN=${var.k3s_token} ./install.sh server --cluster-init --write-kubeconfig-mode 644'",
-      "echo 'Master installation complete!'"
+      #"echo 'SSH is working perfectly!'"
+      "set -x",
+      "curl -sfL https://get.k3s.io | K3S_TOKEN='${var.k3s_token}' sh -s - server --cluster-init --tls-san ${var.vip} --write-kubeconfig-mode 644"
+    ]
+  }
+}
+#Provision the other master nodes
+resource "null_resource" "k3s_masters_join" {
+  count      = length(var.master_ips) - 1
+  depends_on = [null_resource.k3s_init]
+
+  connection {
+    type        = "ssh"
+    user        = var.ssh_user
+    private_key = file("C:/Users/jiriv/.ssh/home-lab-key")
+    host        = var.master_ips[count.index + 1]
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "curl -sfL https://get.k3s.io | K3S_TOKEN='${var.k3s_token}' sh -s - server --server https://${var.master_ips[0]}:6443 --tls-san ${var.vip} --write-kubeconfig-mode 644"
     ]
   }
 }
 
-# 2. Provision the Worker Nodes (Raspberry Pis)
-resource "null_resource" "k3s_workers" {
-  depends_on = [null_resource.k3s_master]
+
+
+#Provision the Worker Nodes 
+resource "null_resource" "k3s_workers_join" {
   count      = length(var.worker_ips)
+  depends_on = [null_resource.k3s_masters_join]
 
   connection {
     type     = "ssh"
     user     = var.ssh_user
-    password = var.ssh_password
+    password = var.ssh_password # Uses the password from your .tfvars
     host     = var.worker_ips[count.index]
   }
 
   provisioner "remote-exec" {
     inline = [
-      "echo 'Downloading K3s installer...'",
-      "curl -sfL https://get.k3s.io -o install.sh",
-      "chmod +x install.sh",
-      "echo 'Running Worker installation...'",
-      "echo '${var.ssh_password}' | sudo -S sh -c 'K3S_URL=https://${var.master_ip}:6443 K3S_TOKEN=${var.k3s_token} ./install.sh'",
-      "echo 'Worker joined the cluster!'"
+      "curl -sfL https://get.k3s.io | K3S_URL=https://${var.vip}:6443 K3S_TOKEN='${var.k3s_token}' sh -s - agent"
     ]
   }
 }

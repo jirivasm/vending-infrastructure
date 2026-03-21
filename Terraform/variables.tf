@@ -9,21 +9,24 @@ variable "ssh_password" {
   sensitive   = true
 }
 
-variable "master_ip" {
+variable "master_ips" {
   description = "IP address of the x86 miniPC"
-  type        = string
+  type        = list(string)
 }
 
 variable "worker_ips" {
   description = "IP addresses of the ARM64 Raspberry Pis"
   type        = list(string)
 }
+variable "vip" {
+  description = "IP of the load balancer with Kube-VIP"
+  type        = string 
+} 
 
 variable "k3s_token" {
   description = "Pre-shared secret for cluster nodes to join"
   type        = string
   sensitive   = true
-  default     = "SuperSecretK3sToken123!" 
 }
 variable "minio_user" {
   description = "MinIO Access Key"

@@ -10,7 +10,7 @@ resource "helm_release" "longhorn" {
   version          = "1.7.0" 
 
   # Wait for the nodes to be ready before installing
-  depends_on = [null_resource.k3s_workers]
+  depends_on = [null_resource.k3s_workers_join]
 }
 # ==========================================
 # 4. Install ArgoCD via Helm
@@ -107,5 +107,5 @@ resource "helm_release" "external_secrets" {
   ]
 
   # Ensure the cluster is ready
-  depends_on = [null_resource.k3s_workers]
+  depends_on = [null_resource.k3s_workers_join]
 }
