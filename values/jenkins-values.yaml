@@ -2,6 +2,7 @@ controller:
   runAsUser: 1000
   podSecurityContext:
     fsGroup: 1000
+
   nodeSelector:
     kubernetes.io/arch: "arm64"
 
@@ -50,7 +51,8 @@ controller:
 # 🚨 MOVED TO THE ROOT LEVEL 🚨
 persistence:
   enabled: true
-  existingClaim: "jenkins-0" 
+  size: "8Gi"
+  #existingClaim: "jenkins-0" 
 
 agent:
   enabled: true
