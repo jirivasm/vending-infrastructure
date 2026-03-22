@@ -1,0 +1,219 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-cluster-overview
+  namespace: monitoring # 🚨 Change this to match the namespace where Grafana lives!
+  labels:
+    # This is the magic label. The Grafana "sidecar" container constantly 
+    # watches the cluster for ConfigMaps with this specific label.
+    grafana_dashboard: "1" 
+data:
+  cluster-overview.json: |-
+    {
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": 29,
+    "links": [],
+    "panels": [
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 23,
+          "x": 0,
+          "y": 0
+        },
+        "id": 2,
+        "options": {
+          "displayMode": "gradient",
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "maxVizHeight": 300,
+          "minVizHeight": 16,
+          "minVizWidth": 8,
+          "namePlacement": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showUnfilled": true,
+          "sizing": "auto",
+          "valueMode": "color"
+        },
+        "pluginVersion": "11.5.1",
+        "targets": [
+          {
+            "editorMode": "code",
+            "expr": "avg by (node, instance) (\r\n  (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes))\r\n  * on(pod) group_left(node) kube_pod_info\r\n) * 100",
+            "legendFormat": "{{node}}({{instance}})",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Memory Usage",
+        "type": "bargauge"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "__systemRef": "hideSeriesFrom",
+              "matcher": {
+                "id": "byNames",
+                "options": {
+                  "mode": "exclude",
+                  "names": [
+                    "node_cpu_seconds_total {__name__=\"node_cpu_seconds_total\", container=\"node-exporter\", cpu=\"0\", endpoint=\"http-metrics\", instance=\"10.0.0.108:9100\", job=\"node-exporter\", mode=\"softirq\", namespace=\"monitoring\", pod=\"monitoring-stack-prometheus-node-exporter-kkkzd\", service=\"monitoring-stack-prometheus-node-exporter\"}"
+                  ],
+                  "prefix": "All except:",
+                  "readOnly": true
+                }
+              },
+              "properties": []
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 23,
+          "x": 0,
+          "y": 11
+        },
+        "id": 1,
+        "options": {
+          "displayMode": "gradient",
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "maxVizHeight": 300,
+          "minVizHeight": 16,
+          "minVizWidth": 8,
+          "namePlacement": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showUnfilled": true,
+          "sizing": "auto",
+          "valueMode": "color"
+        },
+        "pluginVersion": "11.5.1",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "100 - (\r\n  avg by (node, instance) (\r\n    rate(node_cpu_seconds_total{mode=\"idle\"}[5m]) \r\n    * on(pod) group_left(node) \r\n    kube_pod_info\r\n  ) * 100\r\n) ",
+            "format": "time_series",
+            "instant": false,
+            "legendFormat": "{{node}}({{instance}})",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "CPU usage",
+        "type": "bargauge"
+      }
+    ],
+    "preload": false,
+    "refresh": "",
+    "schemaVersion": 40,
+    "tags": [],
+    "templating": {
+      "list": []
+    },
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "browser",
+    "title": "New dashboard",
+    "uid": "ffgqlg5ll9fk0c",
+    "version": 1,
+    "weekStart": ""
+    }
+  
