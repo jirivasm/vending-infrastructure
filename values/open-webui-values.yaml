@@ -1,0 +1,18 @@
+# Disable the built-in Ollama so it doesn't try to install a duplicate
+ollama:
+  enabled: false
+
+# Point Open WebUI to the Ollama service we just built
+# Format: http://<service-name>.<namespace>.svc.cluster.local:<port>
+ollamaUrls:
+  - "http://ollama.ollama.svc.cluster.local:11434"
+
+# Wire up the web routing so you can access it via your custom domain
+ingress:
+  enabled: true
+  className: "traefik"
+  hosts:
+    - host: ai.jirivasm.dev
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
