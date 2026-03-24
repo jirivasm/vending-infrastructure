@@ -2,7 +2,7 @@ ollama:
   models:
     # Automatically pulls a lightweight model so it's ready instantly
     pull:
-      - tinyllama
+      - qwen2.5-coder:7b
 
 affinity:
   nodeAffinity:
