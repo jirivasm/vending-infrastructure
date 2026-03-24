@@ -18,3 +18,26 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+---
+apiVersion: core.k8sgpt.ai/v1alpha1
+kind: K8sGPT
+metadata:
+  name: k8sgpt-local-ai
+  namespace: k8sgpt-operator-system
+spec:
+  ai:
+    enabled: true
+    # We use 'localai' as the backend type because Ollama has a 
+    # built-in API that perfectly mimics this standard.
+    backend: localai
+    # The exact name of the model you are using (Make sure you pulled this in WebUI!)
+    model: qwen2.5-coder:7b
+    # The internal DNS to your Ollama service. Notice the /v1 at the end!
+    baseUrl: http://ollama-app.ollama.svc.cluster.local:11434/v1
+    noCache: false
+  # Tells K8sGPT exactly which Kubernetes resources to monitor
+  filters: 
+    - Pod
+    - Service
+    - Ingress
+    - PersistentVolumeClaim
