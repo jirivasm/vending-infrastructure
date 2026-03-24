@@ -1,0 +1,15 @@
+ollama:
+  models:
+    # Automatically pulls a lightweight model so it's ready instantly
+    pull:
+      - tinyllama
+
+# THE ARCHITECTURE GUARDRAIL
+# Forces Ollama strictly onto your x86 worker so it doesn't 
+# try to run AI models on the Raspberry Pis and crash them.
+nodeSelector:
+  kubernetes.io/hostname: "jirivasm-server"
+  
+service:
+  type: ClusterIP
+  port: 11434
