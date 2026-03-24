@@ -4,11 +4,26 @@ ollama:
     pull:
       - tinyllama
 
-# THE ARCHITECTURE GUARDRAIL
-# Forces Ollama strictly onto your x86 worker so it doesn't 
-# try to run AI models on the Raspberry Pis and crash them.
-nodeSelector:
-  kubernetes.io/hostname: "jirivasm-server"
+affinity:
+  nodeAffinity:
+    # Rule 1 (HARD RULE): It absolutely MUST be an x86 machine. 
+    # This permanently protects the Raspberry Pis.
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/arch
+              operator: In
+              values:
+                - amd64
+                
+    # Rule 2 (SOFT PREFERENCE): Try your absolute hardest to put this 
+    # on a node that is NOT a master node.
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100 # The "desperation" score (1-100)
+        preference:
+          matchExpressions:
+            - key: node-role.kubernetes.io/control-plane
+              operator: DoesNotExist
   
 service:
   type: ClusterIP
