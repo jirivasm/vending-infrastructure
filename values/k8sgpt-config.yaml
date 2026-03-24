@@ -20,3 +20,6 @@ spec:
     - Service
     - Ingress
     - PersistentVolumeClaim
+  sink:
+    type: slack
+    endpoint: discord-webhook
