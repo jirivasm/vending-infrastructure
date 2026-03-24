@@ -28,7 +28,7 @@ spec:
   project: default
   source:
     # This points to your personal repo (jirivasm)
-    repoURL: 'https://github.com/jirivasm/vending-infra.git'
+    repoURL: 'git@github.com:jirivasm/vending-infrastructure.git'
     targetRevision: main
     path: values  # <--- Path where you saved the k8sgpt-config.yaml
     directory:
