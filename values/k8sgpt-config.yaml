@@ -1,46 +1,46 @@
-apiVersion: core.k8sgpt.ai/v1alpha1
-kind: K8sGPT
-metadata:
-  name: k8sgpt-local-ai
-  namespace: k8sgpt-operator-system
-spec:
-  ai:
-    enabled: true
-    # We use 'localai' as the backend type because Ollama has a 
-    # built-in API that perfectly mimics this standard.
-    backend: localai
-    # The exact name of the model you are using (Make sure you pulled this in WebUI!)
-    model: qwen2.5-coder:7b
-    # The internal DNS to your Ollama service. Notice the /v1 at the end!
-    baseUrl: http://ollama-app.ollama.svc.cluster.local:11434/v1
-    noCache: false
-  # Tells K8sGPT exactly which Kubernetes resources to monitor
-  filters: 
-    - Pod
-    - Service
-    - Ingress
-    - PersistentVolumeClaim
-  sink:
-    type: slack
-    endpoint: discord-webhook
----
-apiVersion: external-secrets.io/v1beta1
-kind: ExternalSecret
-metadata:
-  name: sync-discord-webhook
-  namespace: k8sgpt-operator-system
-spec:
-  refreshInterval: "1h"
-  secretStoreRef:
-    # Points to your existing Vault connection
-    name: vault-backend 
-    kind: ClusterSecretStore
-  target:
-    # The name of the secret this will create for K8sGPT to use
-    name: discord-webhook 
-  data:
-    - secretKey: url
-      remoteRef:
-        # The path to the secret inside your HashiCorp Vault
-        key: k8s-discord 
-        property: discord-webhook
+# apiVersion: core.k8sgpt.ai/v1alpha1
+# kind: K8sGPT
+# metadata:
+#   name: k8sgpt-local-ai
+#   namespace: k8sgpt-operator-system
+# spec:
+#   ai:
+#     enabled: true
+#     # We use 'localai' as the backend type because Ollama has a 
+#     # built-in API that perfectly mimics this standard.
+#     backend: localai
+#     # The exact name of the model you are using (Make sure you pulled this in WebUI!)
+#     model: qwen2.5-coder:7b
+#     # The internal DNS to your Ollama service. Notice the /v1 at the end!
+#     baseUrl: http://ollama-app.ollama.svc.cluster.local:11434/v1
+#     noCache: false
+#   # Tells K8sGPT exactly which Kubernetes resources to monitor
+#   filters: 
+#     - Pod
+#     - Service
+#     - Ingress
+#     - PersistentVolumeClaim
+#   sink:
+#     type: slack
+#     endpoint: discord-webhook
+# ---
+# apiVersion: external-secrets.io/v1beta1
+# kind: ExternalSecret
+# metadata:
+#   name: sync-discord-webhook
+#   namespace: k8sgpt-operator-system
+# spec:
+#   refreshInterval: "1h"
+#   secretStoreRef:
+#     # Points to your existing Vault connection
+#     name: vault-backend 
+#     kind: ClusterSecretStore
+#   target:
+#     # The name of the secret this will create for K8sGPT to use
+#     name: discord-webhook 
+#   data:
+#     - secretKey: url
+#       remoteRef:
+#         # The path to the secret inside your HashiCorp Vault
+#         key: k8s-discord 
+#         property: discord-webhook

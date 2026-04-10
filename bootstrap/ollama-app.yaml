@@ -1,60 +1,60 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: ollama-app
-  namespace: argocd
-spec:
-  project: default
-  # 2. 'sources' (plural AND a list with dashes) to combine Runix Helm + Git values
-  sources:
-    - repoURL: https://helm.otwld.com/
-      chart: ollama
-      targetRevision: '*'
-      helm:
-        valueFiles:
-          - $my-git-repo/values/ollama-values.yaml # Adjust this path if you kept it in the 'postgress/' folder!
-    - repoURL: git@github.com:jirivasm/vending-infrastructure.git
-      targetRevision: HEAD
-      ref: my-git-repo
-      path: '.'
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: ollama
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: open-webui-app
-  namespace: argocd
-spec:
-  project: default
-  sources:
-    # Source 1: The Upstream Open WebUI Helm Chart
-    - repoURL: https://helm.openwebui.com/
-      chart: open-webui
-      targetRevision: '*'
-      helm:
-        valueFiles:
-          - $my-git-repo/values/open-webui-values.yaml
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: ollama-app
+#   namespace: argocd
+# spec:
+#   project: default
+#   # 2. 'sources' (plural AND a list with dashes) to combine Runix Helm + Git values
+#   sources:
+#     - repoURL: https://helm.otwld.com/
+#       chart: ollama
+#       targetRevision: '*'
+#       helm:
+#         valueFiles:
+#           - $my-git-repo/values/ollama-values.yaml # Adjust this path if you kept it in the 'postgress/' folder!
+#     - repoURL: git@github.com:jirivasm/vending-infrastructure.git
+#       targetRevision: HEAD
+#       ref: my-git-repo
+#       path: '.'
+#   destination:
+#     server: https://kubernetes.default.svc
+#     namespace: ollama
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+#     syncOptions:
+#       - CreateNamespace=true
+# ---
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: open-webui-app
+#   namespace: argocd
+# spec:
+#   project: default
+#   sources:
+#     # Source 1: The Upstream Open WebUI Helm Chart
+#     - repoURL: https://helm.openwebui.com/
+#       chart: open-webui
+#       targetRevision: '*'
+#       helm:
+#         valueFiles:
+#           - $my-git-repo/values/open-webui-values.yaml
           
-    # Source 2: Your Git Repository holding the overrides
-    - repoURL: https://github.com/jirivasm/vending-infrastructure.git
-      targetRevision: HEAD
-      ref: my-git-repo
-      path: '.'
+#     # Source 2: Your Git Repository holding the overrides
+#     - repoURL: https://github.com/jirivasm/vending-infrastructure.git
+#       targetRevision: HEAD
+#       ref: my-git-repo
+#       path: '.'
       
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: open-webui
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
+#   destination:
+#     server: https://kubernetes.default.svc
+#     namespace: open-webui
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+#     syncOptions:
+#       - CreateNamespace=true
